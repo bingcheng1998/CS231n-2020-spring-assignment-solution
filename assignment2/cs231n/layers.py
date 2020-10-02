@@ -577,7 +577,28 @@ def conv_forward_naive(x, w, b, conv_param):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    stride = conv_param.get('stride', 1)
+    pad = conv_param.get('pad', 0)
+
+    N, C, H, W = x.shape
+    F, C_prime, HH, WW = w.shape
+    # assert C == C_prime, f'C, C_prime: {C}, {C_prime}'
+    H_prime = int(1 + (H + 2 * pad - HH) / stride)
+    W_prime = int(1 + (W + 2 * pad - WW) / stride)
+    out = np.zeros((N, F, H_prime, W_prime),dtype = np.float64)
+
+    x_paded = np.pad(x,((0,0),(0,0),(pad,pad),(pad,pad)),'constant',constant_values = (0,0))
+
+    h_now = 0
+    w_now = 0
+    for i in range(N):
+        x_i = x_paded[i]
+        for j in range(F):
+            w_j = w[j]
+            for h_now in range(H_prime):
+                for w_now in range(W_prime):
+                    x_i_slice = x_i[:, h_now*stride:h_now*stride+HH, w_now*stride:w_now*stride+WW]
+                    out[i,j,h_now,w_now] = np.sum(x_i_slice*w_j)+b[j]
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -606,7 +627,33 @@ def conv_backward_naive(dout, cache):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    x, w, b, conv_param = cache
+    stride = conv_param.get('stride', 1)
+    pad = conv_param.get('pad', 0)
+
+    dx = np.zeros(x.shape, dtype = np.float64)
+    dw = np.zeros(w.shape, dtype = np.float64)
+    db = np.zeros(b.shape, dtype = np.float64)
+
+    N, C, H, W = x.shape
+    F, C_prime, HH, WW = w.shape
+    H_prime = int(1 + (H + 2 * pad - HH) / stride)
+    W_prime = int(1 + (W + 2 * pad - WW) / stride)
+
+    dx_paded = np.pad(dx,((0,0),(0,0),(pad,pad),(pad,pad)),'constant',constant_values = (0,0))
+    x_paded = np.pad(x,((0,0),(0,0),(pad,pad),(pad,pad)),'constant',constant_values = (0,0))
+
+    for i in range(N):
+        x_i = x_paded[i]
+        for j in range(F):
+            w_j = w[j]
+            for h_now in range(H_prime):
+                for w_now in range(W_prime):
+                    db[j] += dout[i,j,h_now,w_now]
+                    dx_paded[i, :, h_now*stride:h_now*stride+HH, w_now*stride:w_now*stride+WW] += dout[i,j,h_now,w_now]*w_j
+                    dw[j] += dout[i,j,h_now,w_now] * x_i[:, h_now*stride:h_now*stride+HH, w_now*stride:w_now*stride+WW]
+
+    dx = dx_paded[:, :, pad:-pad, pad:-pad]
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -640,7 +687,23 @@ def max_pool_forward_naive(x, pool_param):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    stride = pool_param.get('stride', 1)
+    pool_height = pool_param.get('pool_height', 1)
+    pool_width = pool_param.get('pool_width', 1)
+
+    N, C, H, W = x.shape
+    H_prime = int(1 + (H - pool_height) / stride)
+    W_prime = int(1 + (W - pool_width) / stride)
+
+    out = np.zeros((N, C, H_prime, W_prime),dtype = np.float64)
+    h_now = 0
+    w_now = 0
+    for i in range(N):
+        x_i = x[i]
+        for h_now in range(H_prime):
+            for w_now in range(W_prime):
+                x_i_slice = x_i[:, h_now*stride:h_now*stride+pool_height, w_now*stride:w_now*stride+pool_width]
+                out[i,:,h_now,w_now] = np.max(np.max(x_i_slice,axis = 2),axis = 1) # max on w and h flat
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -667,7 +730,30 @@ def max_pool_backward_naive(dout, cache):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    x, pool_param = cache
+    stride = pool_param.get('stride', 1)
+    pool_height = pool_param.get('pool_height', 1)
+    pool_width = pool_param.get('pool_width', 1)
+
+    N, C, H, W = x.shape
+    H_prime = int(1 + (H - pool_height) / stride)
+    W_prime = int(1 + (W - pool_width) / stride)
+
+    # dout = np.zeros((N, C, H_prime, W_prime),dtype = np.float64)
+    dx = np.zeros(x.shape,dtype = np.float64)
+    h_now = 0
+    w_now = 0
+    for i in range(N):
+        x_i = x[i]
+        for h_now in range(H_prime):
+            for w_now in range(W_prime):
+                x_i_slice = x_i[:, h_now*stride:h_now*stride+pool_height, w_now*stride:w_now*stride+pool_width]
+                for c in range(C):
+                    x_i_c = x_i_slice[c]
+                    mask = np.zeros(x_i_c.shape, dtype = np.float64)
+                    mask[x_i_c == np.max(x_i_c)] = 1
+                    mask /= np.sum(mask) # to devide the gradient to several same max values
+                    dx[i, c, h_now*stride:h_now*stride+pool_height, w_now*stride:w_now*stride+pool_width] += mask * dout[i,c,h_now,w_now]
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -709,7 +795,35 @@ def spatial_batchnorm_forward(x, gamma, beta, bn_param):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    mode = bn_param["mode"]
+    eps = bn_param.get("eps", 1e-5)
+    momentum = bn_param.get("momentum", 0.9)
+
+    N, C, H, W = x.shape
+    running_mean = bn_param.get("running_mean", np.zeros(C, dtype=x.dtype))
+    running_var = bn_param.get("running_var", np.zeros(C, dtype=x.dtype))
+
+    if mode == "train":
+        sample_mean = np.mean(x, axis=(0, 2, 3))
+        sample_var  = np.var(x, axis=(0, 2, 3))
+        mean = (x - sample_mean.reshape((1, C, 1, 1)))
+        norm = 1/np.sqrt(sample_var.reshape((1, C, 1, 1)) + eps)
+        x_hat = mean * norm
+
+        running_mean = momentum * running_mean + (1 - momentum) * sample_mean
+        running_var = momentum * running_var + (1 - momentum) * sample_var
+        out = gamma.reshape((1, C, 1, 1)) * x_hat + beta.reshape((1, C, 1, 1))
+
+        cache = (x, x_hat, gamma, norm, mean, sample_var, eps)
+    elif mode == "test":
+        x_hat = (x - running_mean.reshape((1, C, 1, 1))) / np.sqrt(running_var.reshape((1, C, 1, 1)) + eps)
+        out = gamma.reshape((1, C, 1, 1)) * x_hat + beta.reshape((1, C, 1, 1))
+    else:
+        raise ValueError('Invalid forward batchnorm mode "%s"' % mode)
+
+    # Store the updated running means back into bn_param
+    bn_param["running_mean"] = running_mean
+    bn_param["running_var"] = running_var
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -743,7 +857,15 @@ def spatial_batchnorm_backward(dout, cache):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    N, C, H, W = dout.shape
+    x, x_hat, gamma, norm, mean, sample_var, eps  =cache
+
+    dbeta  = np.sum(dout, axis=(0, 2, 3))
+    dgamma = np.sum(dout * x_hat, axis=(0, 2, 3))
+    dx_hat = dout * gamma.reshape((1, C, 1, 1))
+    dsample_mean = np.sum(dx_hat * (-norm.reshape((1, C, 1, 1))), axis=(0, 2, 3))
+    dsample_var  = np.sum((dx_hat * mean * (-1/2) * (sample_var.reshape((1, C, 1, 1)) + eps)**(-3/2)), axis=(0, 2, 3))
+    dx = dx_hat * norm + dsample_mean.reshape((1, C, 1, 1)) * (1.0/N) + dsample_var.reshape((1, C, 1, 1)) * ((2.0/N )* (mean))
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -783,7 +905,19 @@ def spatial_groupnorm_forward(x, gamma, beta, G, gn_param):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    N, C, H, W = x.shape
+    x_splite = x.reshape((N, G, C//G, H, W))
+    sample_mean = np.mean(x_splite, axis=(2, 3, 4)).reshape(N, G, 1, 1, 1)
+    sample_var  = np.var(x_splite, axis=(2, 3, 4)).reshape(N, G, 1, 1, 1)
+    mean = (x_splite - sample_mean)
+    norm = 1/np.sqrt(sample_var + eps)
+    x_hat = mean * norm
+    # x_hat = x_hat.T
+
+    out = gamma.reshape(1, G, C//G, 1, 1) * x_hat + beta.reshape(1, G, C//G, 1, 1)
+    # out = out.reshape((N, C, H, W))
+    cache = (x, x_hat, gamma, norm, mean, sample_var, eps, G)
+    out = out.reshape(N, C, H, W)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -813,8 +947,20 @@ def spatial_groupnorm_backward(dout, cache):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    x, x_hat, gamma, norm, mean, sample_var, eps, G  = cache
+    N, C, H, W = dout.shape
+    group_size = H*W*C//G
+    x_splite = x.reshape((N, G, C//G, H, W))
+    dout  = dout.reshape((N, G, C//G, H, W))
+    dbeta  = np.sum(dout, axis=(0, 3, 4)).reshape(1,C,1,1)
+    dgamma = np.sum(dout * x_hat, axis=(0, 3, 4)).reshape(1,C,1,1)
 
+    dx_hat = dout * gamma.reshape(1, G, C//G, 1, 1)
+    dsample_var  = np.sum((dx_hat * mean * (-1/2) * (sample_var + eps)**(-3/2)), axis=(2,3,4))
+    dsample_mean = np.sum(dx_hat * (-norm), axis=(2,3,4))
+    dx = dx_hat * norm + dsample_mean.reshape(N, G, 1, 1, 1) * (1.0/group_size) + dsample_var.reshape(N, G, 1, 1, 1) * ((2.0/group_size)* (mean))
+
+    dx = dx.reshape(N, C, H, W)
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #
