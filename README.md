@@ -2,7 +2,7 @@
 TODO:
 
 - [x] Assignment [#1](https://cs231n.github.io/assignments2020/assignment1/)
-- [ ] Assignemnt [#2](https://cs231n.github.io/assignments2020/assignment2/)
+- [x] Assignemnt [#2](https://cs231n.github.io/assignments2020/assignment2/)
 - [ ] Assignemnt [#3](https://cs231n.github.io/assignments2020/assignment3/)
 - [ ] Notes
 
