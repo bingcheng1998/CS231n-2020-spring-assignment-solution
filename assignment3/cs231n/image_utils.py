@@ -56,6 +56,22 @@ def deprocess_image(img, rescale=False):
         img = (img - vmin) / (vmax - vmin)
     return np.clip(255 * img, 0.0, 255.0).astype(np.uint8)
 
+def get_default_image():
+    url = 'https://tva1.sinaimg.cn/large/007S8ZIlgy1gjfpgrdb33j30dw07t0sk.jpg'
+    try:
+        f = urllib.request.urlopen(url)
+        _, fname = tempfile.mkstemp()
+        with open(fname, "wb") as ff:
+            ff.write(f.read())
+        img = imread(fname)
+        os.remove(fname)
+        return img
+    except urllib.error.URLError as e:
+        print("URL Error: ", e.reason, url)
+        return e.reason
+    except urllib.error.HTTPError as e:
+        print("HTTP Error: ", e.code, url)
+        return e.code
 
 def image_from_url(url):
     """
@@ -72,8 +88,10 @@ def image_from_url(url):
         return img
     except urllib.error.URLError as e:
         print("URL Error: ", e.reason, url)
+        return get_default_image()
     except urllib.error.HTTPError as e:
         print("HTTP Error: ", e.code, url)
+        return e.code
 
 
 def load_image(filename, size=None):

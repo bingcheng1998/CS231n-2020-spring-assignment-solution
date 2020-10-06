@@ -151,7 +151,26 @@ class CaptioningRNN(object):
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        # 1
+        affine_out, affine_cache = affine_forward(features, W_proj, b_proj)
+        # 2
+        embed_out, embed_cache = word_embedding_forward(captions_in, W_embed)
+        # 3
+        h, rnn_cache = rnn_forward(embed_out, affine_out, Wx, Wh, b)
+        # 4
+        temporal_affine_out, temporal_affine_cache = temporal_affine_forward(h, W_vocab, b_vocab)
+        # 5 
+        loss, dout = temporal_softmax_loss(temporal_affine_out, captions_out, mask)
+
+        # backward pass
+        # 4
+        dh, grads["W_vocab"], grads["b_vocab"] = temporal_affine_backward(dout, temporal_affine_cache)
+        # 3
+        dembed_out, daffine_out, grads["Wx"], grads["Wh"], grads["b"] = rnn_backward(dh, rnn_cache)
+        # 2 
+        grads["W_embed"] = word_embedding_backward(dembed_out, embed_cache)
+        # 1
+        dfeatures, grads["W_proj"], grads["b_proj"] = affine_backward(daffine_out, affine_cache)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -218,8 +237,14 @@ class CaptioningRNN(object):
         # you are using an LSTM, initialize the first cell state to zeros.        #
         ###########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
+        next_h, affine_cache = affine_forward(features, W_proj, b_proj)
+        word = self._start * np.ones((N,), dtype=np.int32)
+        for i in range(max_length):
+            embed_out, embed_cache = word_embedding_forward(word, W_embed)
+            next_h, _ = rnn_step_forward(embed_out, next_h, Wx, Wh, b)
+            temporal_affine_out, _ = affine_forward(next_h, W_vocab, b_vocab)
+            word = temporal_affine_out.argmax(1)
+            captions[:, i] = word
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
