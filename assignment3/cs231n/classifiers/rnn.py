@@ -163,7 +163,7 @@ class CaptioningRNN(object):
         # 4
         y_out, y_cache = temporal_affine_forward(h, W_vocab, b_vocab)
         # 5 
-        loss, dout = temporal_softmax_loss(temporal_affine_out, captions_out, mask)
+        loss, dout = temporal_softmax_loss(y_out, captions_out, mask)
 
         # backward pass
         # 4
