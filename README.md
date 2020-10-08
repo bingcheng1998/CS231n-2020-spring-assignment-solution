@@ -1,9 +1,9 @@
 # CS231n-2020-spring-assignment-solution
 TODO:
 
-- [x] Assignment [#1](https://cs231n.github.io/assignments2020/assignment1/)
-- [x] Assignemnt [#2](https://cs231n.github.io/assignments2020/assignment2/)
-- [x] Assignemnt [#3](https://cs231n.github.io/assignments2020/assignment3/)
+- [x] Assignment [#1](https://cs231n.github.io/assignments2020/assignment1/) (Finished 2020/9/12)
+- [x] Assignemnt [#2](https://cs231n.github.io/assignments2020/assignment2/) (Finished 2020/9/27)
+- [x] Assignemnt [#3](https://cs231n.github.io/assignments2020/assignment3/) (Finished 2020/10/8)
 - [ ] Notes
 
 ---
@@ -18,5 +18,5 @@ TODO:
 
 ### Style Transfer GIFs
 
-<figure class="third">     <img src="assignment3/style_stransfer.gif" width="400"/><img src="assignment3/style_stransfer2.gif" width="400"/> </figure>
+<figure class="third">     <img src="assignment3/style_stransfer.gif" width="350"/><img src="assignment3/style_stransfer2.gif" width="350"/> </figure>
 
