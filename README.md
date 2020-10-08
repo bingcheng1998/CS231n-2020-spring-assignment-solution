@@ -18,6 +18,6 @@ TODO:
 
 
 
-### GANs GIF
+### Style Transfer GIF
 
-![GANS EXAMPLE](assignment3/GANS EXAMPLE.gif)
+![style_stransfer.gif](assignment3/style_stransfer.gif)
