@@ -11,3 +11,13 @@ TODO:
 ##  Important Notice
 
 - DO NOT use `%%timeit` when use CUDA in pytorch!!! If you use it, the program will run for several times uselessly.
+
+---
+
+## Interesting Examples
+
+
+
+### GANs GIF
+
+![GANS EXAMPLE](assignment3/GANS EXAMPLE.gif)
