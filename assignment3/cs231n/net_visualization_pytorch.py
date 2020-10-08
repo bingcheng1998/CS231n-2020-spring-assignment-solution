@@ -34,7 +34,15 @@ def compute_saliency_maps(X, y, model):
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    scores = model(X)
+    scores=scores.gather(1,y.view(-1,1)).squeeze()
+    # RuntimeError: grad can be implicitly created only for scalar outputs
+    # More Info here: https://discuss.pytorch.org/t/loss-backward-raises-error-grad-can-be-implicitly-created-only-for-scalar-outputs/12152
+    scores.backward(torch.FloatTensor([1]*(scores.shape[0])))
+    gradients = X.grad.data
+    gradients = torch.abs(gradients)
+    saliency, _ = torch.max(gradients,dim=1)
+    saliency = saliency.squeeze()
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -76,7 +84,17 @@ def make_fooling_image(X, target_y, model):
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    for i in range(100):
+	    scores = model(X_fooling)
+	    _, pred_y = scores.max(dim = 1)
+	    if pred_y == target_y:
+	    	break
+	    scores=scores[0,target_y]
+	    scores.backward()
+	    gradients = X_fooling.grad.data
+	    dx = learning_rate * gradients / gradients.L2()
+	    X_fooling.data += dx
+	    X_fooling.grad.zero_()
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -94,7 +112,13 @@ def class_visualization_update_step(img, model, target_y, l2_reg, learning_rate)
     ########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    scores = model(img)
+    scores = scores[0, target_y] - l2_reg * torch.norm(img.data)
+    scores.backward()
+    gradients = img.grad.data
+    dx = learning_rate * gradients / torch.norm(gradients)
+    img.data += dx
+    img.grad.zero_()
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ########################################################################

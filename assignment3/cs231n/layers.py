@@ -7,7 +7,7 @@ def affine_forward(x, w, b):
 
     The input x has shape (N, d_1, ..., d_k) where x[i] is the ith input.
     We multiply this against a weight matrix of shape (D, M) where
-    D = \prod_i d_i
+    D = prod_i d_i
 
     Inputs:
     x - Input data, of shape (N, d_1, ..., d_k)
