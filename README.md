@@ -16,8 +16,7 @@ TODO:
 
 ## Interesting Examples
 
+### Style Transfer GIFs
 
+<figure class="third">     <img src="assignment3/style_stransfer.gif" width="400"/><img src="assignment3/style_stransfer2.gif" width="400"/> </figure>
 
-### Style Transfer GIF
-
-![style_stransfer.gif](assignment3/style_stransfer.gif)
