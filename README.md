@@ -18,5 +18,6 @@ TODO:
 
 ### Style Transfer GIFs
 
-<figure class="third">     <img src="assignment3/style_stransfer.gif" width="350"/><img src="assignment3/style_stransfer2.gif" width="350"/> </figure>
+<figure class="third">     <img src="assignment3/styles/composition_vii.jpg" width="250"/><img src="assignment3/style_stransfer.gif" width="350"/> </figure>
 
+<figure class="third">     <img src="assignment3/styles/starry_night.jpg" width="250"/><img src="assignment3/style_stransfer2.gif" width="350"/> </figure>
