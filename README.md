@@ -2,8 +2,8 @@
 TODO:
 
 - [x] Assignment [#1](https://cs231n.github.io/assignments2020/assignment1/) (Finished 2020/9/12)
-- [x] Assignemnt [#2](https://cs231n.github.io/assignments2020/assignment2/) (Finished 2020/9/27)
-- [x] Assignemnt [#3](https://cs231n.github.io/assignments2020/assignment3/) (Finished 2020/10/8)
+- [x] Assignment [#2](https://cs231n.github.io/assignments2020/assignment2/) (Finished 2020/9/27)
+- [x] Assignment [#3](https://cs231n.github.io/assignments2020/assignment3/) (Finished 2020/10/8)
 - [ ] Notes
 
 ---
