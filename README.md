@@ -50,7 +50,7 @@ TODO:
 >
 > <img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs5h73qtgj30fw0a3weo.jpg" style="zoom:67%;" />
 
-It can be find that softmax is much more smooth than SVM, which means it’s more generalized.
+It can be find that softmax is much smoother than SVM, which means it’s more generalized.
 
 ### Style Transfer GIFs
 
