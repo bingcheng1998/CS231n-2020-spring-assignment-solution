@@ -14,7 +14,7 @@ TODO:
 ##  Important Notice
 
 - DO NOT use `%%timeit` when use CUDA in pytorch!!! If you use it, the program will run for several times uselessly.
-- Form numpy axis: Axis or axes along which an operation is performed. eg: `np.sum([[0, 1], [0, 5]], axis=1)` will get `array([1, 5])`. (To sum up, axis on which means which axis will disappear)
+- For numpy axis: Axis or axes along which an operation is performed. eg: `np.sum([[0, 1], [0, 5]], axis=1)` will get `array([1, 5])`. (To sum up, axis on which means which axis will disappear)
 
 ---
 
@@ -32,7 +32,7 @@ TODO:
 >
 > ![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs5sbgp2cj30fw01p745.jpg)
 >
-> *As you can see above, the background of those images which is similar to many other images is black. Because there are many other images have a black color on its margin, while the white part of those images are rarely seen in other images, which will cause a large difference, so will generate the whilte bar*
+> As you can see above, the background of those images which is similar to many other images is black. Because there are many other images that have a black color on its margin, while the white part of those images is rarely seen in other images, which will cause a large difference, so will generate the white bar.
 >
 > Find best `k` for kNN:
 >
@@ -40,7 +40,7 @@ TODO:
 
 
 
-### Svm v.s. softmax
+### SVM v.s. Softmax
 
 > **SVM** 
 >
@@ -50,10 +50,12 @@ TODO:
 >
 > <img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs5h73qtgj30fw0a3weo.jpg" style="zoom:67%;" />
 
-It can be find that softmax is much smoother than SVM, which means it’s more generalized.
+It can be found that softmax is much smoother than SVM, which means it’s more generalized.
 
 ### Style Transfer GIFs
 
 <figure class="half">     <img src="assignment3/styles/composition_vii.jpg" width="250"/><img src="assignment3/style_stransfer.gif" width="350"/> </figure>
 
 <figure class="half">     <img src="assignment3/styles/starry_night.jpg" width="250"/><img src="assignment3/style_stransfer2.gif" width="350"/> </figure>
+
+By watching the first iteration we can find that there is no difference between starting with a random image or starting with the original image.
