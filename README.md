@@ -67,9 +67,7 @@ It can be found that softmax is much smoother than SVM, which means it’s more 
 >
 > ![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjt9zuf3d7j30ch0chab1.jpg)
 
-For float64, best_acc:0.478
-
-
+As you can see, there is no difference. 
 
 
 
