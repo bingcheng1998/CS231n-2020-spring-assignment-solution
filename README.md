@@ -10,6 +10,7 @@ TODO:
 - [x] Assignment [#2](https://cs231n.github.io/assignments2020/assignment2/) (Finished 2020/9/27)
 - [x] Assignment [#3](https://cs231n.github.io/assignments2020/assignment3/) (Finished 2020/10/8)
 - [ ] Notes
+- [ ] HyperQuest (Still under construction)
 
 ---
 
@@ -53,6 +54,24 @@ TODO:
 > <img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs5h73qtgj30fw0a3weo.jpg" style="zoom:67%;" />
 
 It can be found that softmax is much smoother than SVM, which means it’s more generalized.
+
+## 2-layer net with different dtype
+
+
+
+> With dtype `np.single`, visualize the weights of the first layer:
+>
+> ![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjt9y8lqtdj30ch0ch759.jpg)
+
+> With dtype `np.float64`, visualize the weights of the first layer:
+>
+> ![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjt9zuf3d7j30ch0chab1.jpg)
+
+For float64, best_acc:0.478
+
+
+
+
 
 ### Style Transfer GIFs
 
