@@ -10,7 +10,7 @@ TODO:
 - [x] Assignment [#2](https://cs231n.github.io/assignments2020/assignment2/) (Finished 2020/9/27)
 - [x] Assignment [#3](https://cs231n.github.io/assignments2020/assignment3/) (Finished 2020/10/8)
 - [ ] Notes
-- [ ] HyperQuest (Still under construction)
+- [x] HyperQuest (try it [HERE](https://bingcheng.openmc.cn/HyperQuest/))
 
 ---
 
@@ -18,6 +18,16 @@ TODO:
 
 - DO NOT use `%%timeit` when use CUDA in pytorch!!! If you use it, the program will run for several times uselessly.
 - For numpy axis: Axis or axes along which an operation is performed. eg: `np.sum([[0, 1], [0, 5]], axis=1)` will get `array([1, 5])`. (To sum up, axis on which means which axis will disappear)
+
+---
+
+## HyperQuest
+
+**HyperQuest** mimics the hyper parameter tuning app from Stanford University, CS231n. **HyperQuest** is a web-app designed for beginners in Machine Learning to easily get a proper intuition for choosing the right hyper parameters. This is initially an extremely daunting task because not having proper hyper parameters leads to the models breaking down.
+
+Try HyperQuest [HERE](https://bingcheng.openmc.cn/HyperQuest/)!
+
+![](https://img.vim-cn.com/58/16771e2f97c0468052b4120ca2c68062b42b74.png)
 
 ---
 
