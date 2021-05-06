@@ -1,23 +1,16 @@
 <a href="https://bingcheng.openmc.cn"><img src="https://img.shields.io/badge/blog-%40bingcheng-brightgreen" alt="bingcheng.openmc.cn"></a>
-<a href="http://en.sjtu.edu.cn/"><img src="https://img.shields.io/badge/University-%40SJTU-blue" alt="en.sjtu.edu.cn/"></a>
+<a href="http://en.sjtu.edu.cn/"><img src="https://img.shields.io/badge/University-%40SJTU-blue" alt="en.sjtu.edu.cn/"></a><a href="http://en.sjtu.edu.cn/"><img src="https://img.shields.io/badge/University-%40NYU-purple" alt="en.sjtu.edu.cn/"></a>
 <a href="https://www.ji.sjtu.edu.cn/"><img src="https://img.shields.io/badge/Institute-%40UM--SJTU%20JI-orange" alt="www.ji.sjtu.edu.cn/"></a>
 
 # CS231n-2020-spring-assignment-solution
 
-TODO:
+~~TODO:~~ All Finished
 
 - [x] Assignment [#1](https://cs231n.github.io/assignments2020/assignment1/) (Finished 2020/9/12)
 - [x] Assignment [#2](https://cs231n.github.io/assignments2020/assignment2/) (Finished 2020/9/27)
 - [x] Assignment [#3](https://cs231n.github.io/assignments2020/assignment3/) (Finished 2020/10/8)
-- [x] Notes 扫描全能王[链接](https://www.camscanner.com/s/MHgzZGQ1NzU2NA%3D%3D/689CA9?pid=dsa&style=1)
+- [x] Notes 扫描全能王[链接](https://www.camscanner.com/s/MHgzZGQ1NzU2NA%3D%3D/689CA9?pid=dsa&style=1) （Chinese Only）
 - [x] HyperQuest (try it [HERE](https://bingcheng.openmc.cn/HyperQuest/))
-
----
-
-##  Important Notice
-
-- DO NOT use `%%timeit` when use CUDA in pytorch!!! If you use it, the program will run for several times uselessly.
-- For numpy axis: Axis or axes along which an operation is performed. eg: `np.sum([[0, 1], [0, 5]], axis=1)` will get `array([1, 5])`. (To sum up, axis on which means which axis will disappear)
 
 ---
 
